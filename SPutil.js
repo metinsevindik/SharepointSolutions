@@ -1,8 +1,7 @@
-﻿/// Version 1.0  | Created By: Metin SEVİNDİK  | Last Updated: 02.10.2018 | Last Updated By: Metin SEVİNDİK
 /// Bu dosya javascript kütüphanelerinin hazır methodlarını barındırır.
-/// Dosya Ana dizini "https://portal.saglik.gov.tr/sgb/SiteAssets/js" adresidir.
-//// ***** ÖNEMLİ UYARI *****
-//// Kullanmak için bu dosyayı kopyalayarak kullanınız. Uygulamalarınızda doğrudan bu dizini referans vermeyiniz.
+/// Dosya Ana dizini "https://raw.githubusercontent.com/metinsevindik/SharepointUtilJs/master/SPutil.js" adresidir.
+/// ***** ÖNEMLİ UYARI *****
+/// Kullanmak için bu dosyayı kopyalayarak kullanınız. Uygulamalarınızda doğrudan bu dizini referans vermeyiniz.
 /// Çünkü geliştirilmekte olan bu dosyada methodlarda değişiklik yapılması durumunda, eski kodunuz çalışmayabilir.
 
 try {
@@ -151,9 +150,9 @@ try {
  * @param {string} fieldDisplayNames : pasif olacak alanın görünen adı (dil seçeneğine dikkat edilmeli: default field nameler kullanıcı diline göre değişmekte!!)
  * @param {boolean} isactive : false ise alanlar kapatılır, true ise alanlar aktif olur.
  * Kullanımı:
- * disableField("Eylem Adı");
- * disableField("Eylem Adı,İkinci Alan Adı");
- * disableField("1. İzlem"); -> Tüm 1. İzlem ile başlayanları etkiler     *
+ * disableField("field Display Name");
+ * disableField("Title,");
+ * disableField("Yıl "); -> Tüm Yıl ile başlayanları etkiler
  */
 function disableField(fieldDisplayNames, isactive = false) {
   var fields = fieldDisplayNames.split(",");
