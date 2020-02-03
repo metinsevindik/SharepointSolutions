@@ -1,0 +1,27 @@
+/*  liste kolonu genişliği ayarlama. 
+Not: Filtrelenmeyen alanlar için -nofilter olan css kullanılmalı
+ */
+    th.ms-vh2 div[DisplayName='Öne Çıkan Eylemler Arasında mı?'],
+    th.ms-vh2-nofilter div[DisplayName='Üst Politikalardaki Yeri'] {
+        min-width: 100px !important;
+        width: 100px !important;
+        white-space: normal;
+    }
+
+/* liste hücresi yüksekliği sabitleştirme ve dikey  scroll çıkarma */
+    td.ms-cellstyle.ms-vb2 div {
+        max-height: 270px;
+        overflow: auto;
+    }
+
+/* Kenarlık rengi */
+    .ms-cellstyle,
+    th.ms-vh2,
+    th.ms-vh2-nofilter {
+        border-color: #6c0000 !important;
+    }
+
+/* Başlık rengi */
+    .ms-vh-div {
+        color: white;
+    } 
