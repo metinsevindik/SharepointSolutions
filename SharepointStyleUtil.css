@@ -1,8 +1,8 @@
 /*  liste kolonu genişliği ayarlama. 
 Not: Filtrelenmeyen alanlar için -nofilter olan css kullanılmalı
  */
-    th.ms-vh2 div[DisplayName='Öne Çıkan Eylemler Arasında mı?'],
-    th.ms-vh2-nofilter div[DisplayName='Üst Politikalardaki Yeri'] {
+    th.ms-vh2 div[DisplayName='ColumnName1'],
+    th.ms-vh2-nofilter div[DisplayName='ColumnName2'] {
         min-width: 100px !important;
         width: 100px !important;
         white-space: normal;
