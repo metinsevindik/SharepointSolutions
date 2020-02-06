@@ -187,3 +187,25 @@ function disableField(fieldDisplayNames, isactive = false) {
     }
   });
 }
+
+
+/**
+ * Bu fonksiyon aktif bir sharepoint listende lookup olan alan için kullanılır. (Test edilmemiştir.)
+ * @param {string} relationshipListname : İlişkili listenin adı
+ * @param {string} relationshipListParentColumnname : İlişkili listenin üst kolon adı
+ * @param {string} relationshipListChildColumnname : ilişkili listenin alt kolon adı
+ * @param {string} parentColumnname : mevcut listenin üst kolon adı
+ * @param {string} childColumnname : mevcut listenin alt kolon adı
+ * Örn: CreateCascadeDropdowns("DaireBaskanliklari","Birimi","Title","Sorumlu Birim","Sorumlu Daire Başkanlığı")
+ */
+function SPCascadeDropdowns(relationshipListname,relationshipListParentColumnname,relationshipListChildColumnname,parentColumnname,childColumnname){
+    $().SPServices.SPCascadeDropdowns({
+        relationshipList: relationshipListname,
+        relationshipListParentColumn: relationshipListParentColumnname,
+        relationshipListChildColumn: relationshipListChildColumnname,
+        parentColumn: parentColumnname,
+        childColumn: childColumnname,
+        debug: true
+      }); 
+
+}
