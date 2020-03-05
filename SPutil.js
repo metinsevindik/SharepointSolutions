@@ -189,23 +189,55 @@ function disableField(fieldDisplayNames, isactive = false) {
 }
 
 
-/**
- * Bu fonksiyon aktif bir sharepoint listende lookup olan alan için kullanılır. (Test edilmemiştir.)
- * @param {string} relationshipListname : İlişkili listenin adı
- * @param {string} relationshipListParentColumnname : İlişkili listenin üst kolon adı
- * @param {string} relationshipListChildColumnname : ilişkili listenin alt kolon adı
- * @param {string} parentColumnname : mevcut listenin üst kolon adı
- * @param {string} childColumnname : mevcut listenin alt kolon adı
- * Örn: CreateCascadeDropdowns("DaireBaskanliklari","Birimi","Title","Sorumlu Birim","Sorumlu Daire Başkanlığı")
- */
-function SPCascadeDropdowns(relationshipListname,relationshipListParentColumnname,relationshipListChildColumnname,parentColumnname,childColumnname){
-    $().SPServices.SPCascadeDropdowns({
-        relationshipList: relationshipListname,
-        relationshipListParentColumn: relationshipListParentColumnname,
-        relationshipListChildColumn: relationshipListChildColumnname,
-        parentColumn: parentColumnname,
-        childColumn: childColumnname,
-        debug: true
-      }); 
 
-}
+    /** Util.js dosyası import edildiğinde bazı field ler görünmez olduğundan bu fonksiyon buraya ayrıca eklendi.
+     * 
+     * 
+     * @param {string} fieldDisplayNames : pasif olacak alanın görünen adı (dil seçeneğine dikkat edilmeli: default field nameler kullanıcı diline göre değişmekte!!)
+     * @param {boolean} isactive : false ise alanlar kapatılır, true ise alanlar aktif olur.
+     * Kullanımı:
+     * disableField("Eylem Adı");
+     * disableField("Eylem Adı,İkinci Alan Adı");
+     * disableField("1. İzlem"); -> Tüm 1. İzlem ile başlayanları etkiler
+     *
+     */
+    function disableField(fieldDisplayNames, isactive = false) {
+        var fields = fieldDisplayNames.split(",");
+        $.each(fields, function (i, item) {
+            var closestTr = $('nobr:contains("' + item + '")').closest("tr");
+            disableElement(closestTr, isactive);
+        });
+    }
+
+    function disableElement(closestTr, isactive = false) {
+        if (isactive) {
+            closestTr.css("background-color", "#fff");
+            closestTr.find("input").removeAttr("disabled");
+            closestTr.find("select").removeAttr("disabled");
+            closestTr.find("textarea").removeAttr("disabled");
+            closestTr.find(".ms-dtinput a").attr("style", "display:block"); // Datetime picker
+            $(closestTr.find('div [contenteditable="true"]')).attr(
+                "contenteditable",
+                "true"
+            );
+            $($(closestTr.find("td")[1]).find("div")[0]).removeClass(
+                "ms-inputBoxDisabled"
+            );
+            closestTr.find('#idAttachmentsTable tr td:nth-child(2)').show()
+
+        } else {
+            closestTr.css("background-color", "#f7f7f7");
+            closestTr.find("input").attr("disabled", "disabled");
+            closestTr.find("select").attr("disabled", "disabled");
+            closestTr.find("textarea").attr("disabled", "disabled");
+            closestTr.find(".ms-dtinput a").attr("style", "display:none"); // Datetime picker
+            $(closestTr.find('div [contenteditable="true"]')).attr(
+                "contenteditable",
+                "false"
+            );
+            $($(closestTr.find("td")[1]).find("div")[0]).addClass(
+                "ms-inputBoxDisabled"
+            );
+            closestTr.find('#idAttachmentsTable tr td:nth-child(2)').hide();
+        }
+    }
