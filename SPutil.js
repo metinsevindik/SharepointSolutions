@@ -209,35 +209,45 @@ function disableField(fieldDisplayNames, isactive = false) {
         });
     }
 
-    function disableElement(closestTr, isactive = false) {
-        if (isactive) {
-            closestTr.css("background-color", "#fff");
-            closestTr.find("input").removeAttr("disabled");
-            closestTr.find("select").removeAttr("disabled");
-            closestTr.find("textarea").removeAttr("disabled");
-            closestTr.find(".ms-dtinput a").attr("style", "display:block"); // Datetime picker
-            $(closestTr.find('div [contenteditable="true"]')).attr(
-                "contenteditable",
-                "true"
-            );
-            $($(closestTr.find("td")[1]).find("div")[0]).removeClass(
-                "ms-inputBoxDisabled"
-            );
-            closestTr.find('#idAttachmentsTable tr td:nth-child(2)').show()
-
-        } else {
-            closestTr.css("background-color", "#f7f7f7");
-            closestTr.find("input").attr("disabled", "disabled");
-            closestTr.find("select").attr("disabled", "disabled");
-            closestTr.find("textarea").attr("disabled", "disabled");
-            closestTr.find(".ms-dtinput a").attr("style", "display:none"); // Datetime picker
-            $(closestTr.find('div [contenteditable="true"]')).attr(
-                "contenteditable",
-                "false"
-            );
-            $($(closestTr.find("td")[1]).find("div")[0]).addClass(
-                "ms-inputBoxDisabled"
-            );
-            closestTr.find('#idAttachmentsTable tr td:nth-child(2)').hide();
-        }
-    }
+function disableElement(closestTr, isactive) {
+  isactive = isactive || false;
+  if (isactive) {
+    closestTr.css("background-color", "#fff");
+    closestTr.find("input").removeAttr("disabled");
+    closestTr.find("select").removeAttr("disabled");
+    closestTr.find("textarea").removeAttr("disabled");
+    closestTr.find(".ms-dtinput a").attr("style", "display:block"); // Datetime picker
+    $(closestTr.find('div [contenteditable="true"]')).attr(
+      "contenteditable",
+      "true"
+    );
+    $($(closestTr.find("td")[1]).find("div")[0]).removeClass(
+      "ms-inputBoxDisabled"
+    );
+    closestTr.find("#idAttachmentsTable tr td:nth-child(2)").show();
+    closestTr.find(".sp-peoplepicker-delImage").show();
+    closestTr
+      .find(".sp-peoplepicker-topLevel")
+      .removeClass("sp-peoplepicker-topLevelDisabled")
+      .addClass("sp-peoplepicker-topLevel");
+  } else {
+    closestTr.css("background-color", "#f7f7f7");
+    closestTr.find("input").attr("disabled", "disabled");
+    closestTr.find("select").attr("disabled", "disabled");
+    closestTr.find("textarea").attr("disabled", "disabled");
+    closestTr.find(".ms-dtinput a").attr("style", "display:none"); // Datetime picker
+    $(closestTr.find('div [contenteditable="true"]')).attr(
+      "contenteditable",
+      "false"
+    );
+    $($(closestTr.find("td")[1]).find("div")[0]).addClass(
+      "ms-inputBoxDisabled"
+    );
+    closestTr.find("#idAttachmentsTable tr td:nth-child(2)").hide();
+    closestTr.find(".sp-peoplepicker-delImage").hide();
+    closestTr
+      .find(".sp-peoplepicker-topLevel")
+      .removeClass("sp-peoplepicker-topLevel")
+      .addClass("sp-peoplepicker-topLevelDisabled");
+  }
+}
