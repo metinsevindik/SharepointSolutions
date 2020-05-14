@@ -201,7 +201,8 @@ function disableField(fieldDisplayNames, isactive = false) {
      * disableField("1. İzlem"); -> Tüm 1. İzlem ile başlayanları etkiler
      *
      */
-    function disableField(fieldDisplayNames, isactive = false) {
+    function disableField(fieldDisplayNames, isactive) {
+        isactive = isactive || false;
         var fields = fieldDisplayNames.split(",");
         $.each(fields, function (i, item) {
             var closestTr = $('nobr:contains("' + item + '")').closest("tr");
