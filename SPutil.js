@@ -252,3 +252,30 @@ function disableElement(closestTr, isactive) {
       .addClass("sp-peoplepicker-topLevelDisabled");
   }
 }
+
+var Prerender=function(){
+    function listPreRender(renderCtx) {
+        var rows = renderCtx.ListData.Row;
+        var filteredRows = rows.filter(function(row) {
+            return MyUSerVariable.authorized===true;
+        });
+        renderCtx.ListData.Row = filteredRows;
+        renderCtx.ListData.LastRow = filteredRows.length;
+    }
+
+    SP.SOD.executeFunc("clienttemplates.js", "SPClientTemplates", function() {
+        webUrl = _spPageContextInfo.webAbsoluteUrl;
+        //MyUSerVariable => GetUserDepartment(); // Check User Info to variables from sharepoint User list
+
+        var MyContext = {
+            Templates: {
+                OnPreRender: listPreRender,
+                OnPostRender: function(ctx) {
+                    $('.holder').hide();
+                }
+            }
+        };
+
+        SPClientTemplates.TemplateManager.RegisterTemplateOverrides(MyContext);
+    });
+}
