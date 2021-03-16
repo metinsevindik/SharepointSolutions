@@ -31,6 +31,36 @@ try {
     };
   }
 
+/// Kullanmak için bu dosyayı kopyalayarak kullanınız. Uygulamalarınızda doğrudan bu dizini referans vermeyiniz.
+/// Çünkü geliştirilmekte olan bu dosyada methodlarda değişiklik yapılması durumunda, eski kodunuz çalışmayabilir.
+/// updateItem("https://mydomain/test", "mySPListname", "B5A7074C........mylistID......61C2", 1, "myField", 444)
+function updateItem(sitename, ListName, listId, itemid, fieldname, value) {
+    var itemProperties = {
+        '__metadata': { 'type': 'SP.Data.' + ListName + 'ListItem' }
+    };
+    itemProperties[fieldname] = value
+
+    $.ajax({
+        async: false,
+        url: sitename + "/_api/web/lists(guid'" + listId + "')/items(" + itemid + ")",
+        type: "POST",
+        data: JSON.stringify(itemProperties),
+        headers: {
+            "Accept": "application/json;odata=verbose",
+            "Content-Type": "application/json;odata=verbose",
+            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+            "IF-MATCH": "*",
+            "X-HTTP-Method": "MERGE",
+        },
+        success: function (data) {
+            console.log('Item updated successfully ' + id);
+        },
+        error: function (error) {
+            console.log("Error: " + JSON.stringify(error));
+        }
+    });
+}
+  
   var SPoint = function(siteURL, listTitle) {
     var siteUrl = siteURL; //'/sites/MySiteCollection';
 
