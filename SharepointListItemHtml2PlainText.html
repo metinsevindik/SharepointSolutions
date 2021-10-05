@@ -1,0 +1,92 @@
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script type="text/javascript"
+  src="https://raw.githubusercontent.com/metinsevindik/SharepointSolutions/master/SPutil.js"></script>
+<html>
+
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+</head>
+
+</html>
+
+<body>
+  <Button type='button' onclick="  UpdateAll(); return;">Tümünü Güncelle</Button>
+  <table id="TempTable">
+  </table>
+
+</body>
+
+<script>
+  var currentItemsIndex = 0;
+  var tablesrows;
+  /// updateSPItem("https://mydomain/test", "mySPListname", "B5A7074C........mylistID......61C2", 1, "myField", 444)
+  function updateSPItem(sitename, ListName, listId, itemid, fieldname, value, successFunc) {
+    var itemProperties = {
+      '__metadata': { 'type': 'SP.Data.' + ListName + 'ListItem' }
+    };
+    itemProperties[fieldname] = value
+
+    $.ajax({
+      async: false,
+      url: sitename + "/_api/web/lists(guid'" + listId + "')/items(" + itemid + ")",
+      type: "POST",
+      data: JSON.stringify(itemProperties),
+      headers: {
+        "Accept": "application/json;odata=verbose",
+        "Content-Type": "application/json;odata=verbose",
+        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+        "IF-MATCH": "*",
+        "X-HTTP-Method": "MERGE",
+      },
+      success: successFunc ? successFunc : function () {
+        console.log("Item Updated")
+      },
+      error: function (error) {
+        console.log("Error: " + JSON.stringify(error));
+      }
+    });
+  }
+
+  function updateItem(id, fieldname, element, successFunc) {
+    debugger;
+    var newValue = $(element).closest("tr").find(".sorun")[0].outerText;
+    updateSPItem("yourSiteUrl", "ListName", "ListGUID", id, fieldname, newValue, function () {
+      element.remove()
+      debugger;
+      setTimeout(() => {
+        $('.updateBtn')[0].click();
+      }, 10);
+    })
+    return;
+  }
+
+  function UpdateAll() {
+    $('.updateBtn')[0].click();
+  }
+  $(function () {
+    var listUrl = "yoursitename/_api/Web/Lists(guid'06....-....-....-..52')/Items?&$select=ID,Title,yourfieldname&$top=4000";
+    Ajax(listUrl, function (data) {
+      if (data.d.results.length > 0) {
+        var items = data.d.results;
+        for (const iterator of items) {
+          var tempEl = document.createElement("div");
+          tempEl.innerHTML = iterator.Sorun;
+
+          var tr = `<tr id="${iterator.Id}">`;
+          tr += `<td>${iterator.Id}</td>`;
+          tr += `<td> <a target="_blank" href="yoursitename/Lists/ListName/DispForm.aspx?ID=${iterator.Id}">#</a></td>`;
+          tr += `<td>`;
+          if ($(tempEl).find("div").length > 0) {
+            tr += `<span class="updateBtn" style="color: red;" onclick="updateItem(${iterator.Id},'yourfieldname',this)">Güncelle</span>`;
+          }
+          tr += `</td>`;
+          tr += `<td width="400">${iterator.yourfieldname}</td>`;
+          tr += "</tr>";
+          $("#TempTable").append(tr);
+        }
+      }
+    }, undefined, false, true);
+  })
+
+</script>
